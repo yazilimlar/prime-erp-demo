@@ -1,0 +1,5 @@
+# Prime Industrial ERP — read-only DEMO backend
+# Only what the demo imports. No requests / plaid / playwright: the demo makes no
+# outbound calls and generates no PDFs.
+Flask==3.1.3
+gunicorn==23.0.0

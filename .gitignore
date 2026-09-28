@@ -1,0 +1,12 @@
+# local runtime state — never commit
+data/
+.venv/
+.pydeps/
+__pycache__/
+*.pyc
+.env
+erp_auth_audit.log
+# the demo repo must contain ONLY the sanitized seed DB
+*.db-wal
+*.db-shm
+prime_industrial.db
