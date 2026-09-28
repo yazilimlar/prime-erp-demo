@@ -1,14 +1,13 @@
-# Render Blueprint — Prime Industrial ERP read-only demo API.
-# Place this file at the ROOT of the demo repo (i.e. the contents of demo/ are the repo).
+# Render Blueprint — Prime Industrial ERP read-only demo API (free tier).
 services:
   - type: web
     name: prime-erp-demo
     runtime: python
-    plan: starter                  # persistent disks require a paid instance type
+    plan: free
     region: virginia
     buildCommand: pip install -r requirements.txt
-    # DB is read-only, so multiple workers are safe. demo_db.ensure_seeded() copies the
-    # sanitized seed DB onto the disk on first boot.
+    # DB is read-only; demo_db.ensure_seeded() copies the sanitized seed DB
+    # into ./data on first boot, so no persistent disk is needed.
     startCommand: gunicorn demo_server:app --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --access-logfile -
     healthCheckPath: /healthz
     autoDeploy: false
@@ -17,13 +16,5 @@ services:
         value: "3.12.7"
       - key: DEMO_MODE
         value: "1"
-      - key: PRIME_ERP_DATA_DIR
-        value: /var/data
-      - key: ERP_SESSION_SECRET      # only used if DEMO_MODE is ever turned off
-        generateValue: true
       - key: ERP_COOKIE_SECURE
         value: "1"
-    disk:
-      name: prime-erp-demo-data
-      mountPath: /var/data
-      sizeGB: 1
